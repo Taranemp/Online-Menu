@@ -1,17 +1,89 @@
 CONTEXT:
 Mobile-first web app built with Next.js, Tailwind CSS, and shadcn/ui — an online restaurant menu where users browse categories and place food orders.
 
+IMPORTANT SHADCN/UI SETUP:
+The project is configured to use the shadcn/ui Nova preset and this must NOT be replaced with another style such as default, new-york, or any other preset.
+
+Current shadcn configuration:
+
+* style: `nova`
+* base: `radix`
+* baseColor: `neutral`
+* theme: `neutral`
+* iconLibrary: `lucide`
+* font: `geist`
+* radius: `default`
+* preset: `b2fA`
+
+Current setup status:
+
+* `components.json` already exists and is configured for the Nova preset.
+* Tailwind CSS v4 is already installed and configured.
+* Next.js + React + TypeScript are already installed.
+* `components/ui/` does not currently contain shadcn components.
+* `lib/utils.ts` is missing.
+* The current `app/globals.css` contains existing Tailwind/theme variables and custom CSS that must be preserved.
+* The shadcn CLI currently fails when running `shadcn add card` because the Nova registry endpoint returns 404.
+* The newer Nova component source exists under the shadcn v4 source registry, so do not assume the project should switch away from Nova.
+
+FIRST TASK — FIX/COMPLETE SHADCN SETUP:
+Before building the page, inspect the existing codebase and complete the shadcn/ui setup correctly.
+
+Requirements:
+
+1. Read the existing project structure and configuration before making changes.
+2. Preserve the existing Nova preset (`b2fA`) exactly. Do NOT replace Nova with default, new-york, or another style.
+3. Verify all required shadcn dependencies are installed.
+4. Verify/install the required `cn` package if the current Nova/v4 components depend on it.
+5. Create/configure `lib/utils.ts` correctly.
+6. Create `components/ui/` if missing.
+7. Make sure the Nova theme/design tokens required by the current Nova components are properly integrated into `app/globals.css`.
+8. Preserve the existing custom CSS/theme variables in `app/globals.css`; do not unnecessarily overwrite or remove them.
+9. Add at least one real shadcn component (for example `Card`) using the correct Nova/v4 implementation so the setup is actually usable.
+10. Verify TypeScript/build after setup and fix any errors caused by the shadcn integration.
+11. Do not modify or restructure existing routes/components unless necessary for the requested page.
+12. Do not use fake/placeholder shadcn setup just to make the files exist. The result must be functional and consistent with the current Nova preset.
+
+After the shadcn setup is complete, build the main/banner (home) page.
+
+HOME PAGE REQUIREMENTS:
 Read the existing codebase first, then build the main/banner (home) page with this layout:
 
 1. Top: hero image (I'll provide the image next)
 2. Below image: restaurant name, styled for mobile (bold, prominent, centered)
-3. Below name: opening hours + location (compact, icon-labeled  clock icon + hours, pin icon + address)
+3. Below name: opening hours + location (compact, icon-labeled clock icon + hours, pin icon + address)
 4. Below that: menu categories grid/list, each with an icon; tapping a category navigates to that category's page
 
+STRUCTURE:
+Keep the page cleanly separated into reusable components, for example:
+
+* `Hero`
+* `RestaurantInfo`
+* `CategoryGrid`
+
+Follow the existing project architecture and naming conventions if the codebase already has an established pattern.
+
 RULES:
-Follow existing project conventions (component structure, styling patterns, naming) found in the codebase
-Use shadcn/ui components where applicable instead of custom-building from scratch
-Fully responsive, mobile-first (this is the primary target, not desktop)
-Keep it a single reusable component/page, cleanly separated (e.g. Hero, RestaurantInfo, CategoryGrid)
-No placeholder logic that breaks build — use sensible defaults/mock data until real data/image is provided
-Ask before assuming category routing structure if unclear from codebase
+
+* Follow existing project conventions (component structure, styling patterns, naming) found in the codebase.
+* Use shadcn/ui components where applicable instead of custom-building equivalent UI from scratch.
+* Use Lucide icons where appropriate and consistent with the existing shadcn setup.
+* Fully responsive and mobile-first. Mobile is the primary target, not desktop.
+* The layout should look polished and production-oriented, not like a generic demo.
+* Keep the implementation clean, reusable, and maintainable.
+* No placeholder logic that breaks the build.
+* Use sensible mock/default restaurant information and category data until the real data is provided.
+* The hero image should be implemented so the real image can be dropped in easily when I provide it.
+* Do not invent backend/API integration if none exists in the current codebase.
+* Reuse existing utilities/components/styles when available instead of duplicating them.
+* Keep accessibility in mind: semantic structure, meaningful labels, usable touch targets, readable contrast, and appropriate alt text.
+* Do not unnecessarily change unrelated files.
+* Before assuming category routing structure, inspect the existing routes/codebase. If the routing structure is genuinely unclear, stop and ask before inventing a new routing convention.
+
+FINAL CHECK:
+After implementation:
+
+1. Run the appropriate lint/typecheck/build command available in the project.
+2. Fix all errors caused by your changes.
+3. Confirm which files were created/modified.
+4. Give a concise summary of the implementation and mention any routing assumption that had to be made.

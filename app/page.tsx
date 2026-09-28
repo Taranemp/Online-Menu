@@ -1,11 +1,5 @@
-import Image from "next/image";
+import RestaurantHome from "@/components/restaurant/RestaurantHome";
 
 export default function Home() {
-  return (
-    <div>
-      <a className="text-primary bg-gray-200" href="./restaurants/1/">
-       go to restaurants
-      </a>
-    </div>
-  );
+  return <RestaurantHome />;
 }
