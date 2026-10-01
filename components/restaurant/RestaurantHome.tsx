@@ -8,8 +8,8 @@ import { MOCK_MENU_ITEMS } from "./menuData";
 // Mock restaurant details — replace with real data fetching when available.
 // Keep this co-located so the restaurant identity stays easy to update.
 const MOCK_RESTAURANT = {
-  name: "ساکورا",
-  location: "تهران، میرداماد",
+  name: "اسم رستوران",
+  location: " آدرس",
 };
 
 // Restaurant homepage — the single public entry point.

@@ -6,28 +6,34 @@ type RestaurantHeaderProps = {
   location?: string;
 };
 
-// Compact dark header with restaurant logo, location pin, hamburger menu,
-// and an integrated search bar. Replaces the large Hero image approach.
 export default function RestaurantHeader({
-  restaurantName = "ساکورا",
-  location = "تهران، میرداماد",
+  restaurantName = "اسم رستوران",
+  location = "آدرس",
 }: RestaurantHeaderProps) {
   return (
-    <header className="bg-[#111827] pb-2 text-foreground">
+    <header className="bg-black text-white">
       <div className="mx-auto w-full max-w-md">
-        <div className="flex items-center justify-between px-3 py-2.5">
-          <div className="flex items-center gap-1 text-xs text-gray-300">
-            <MapPin className="size-3.5" aria-hidden="true" />
+        
+        {/* Top row */}
+        <div className="flex items-center justify-between px-4 pt-6 pb-8">
+          <div className="flex items-center gap-2 text-sm">
+            <MapPin className="size-7" />
             <span>{location}</span>
           </div>
-          <div className="flex items-center justify-center gap-2">
-            <span className="text-sm font-bold">{restaurantName}</span>
+
+          <div className="text-base font-bold">
+            {restaurantName}
           </div>
-          <Menu className="size-5 text-gray-300" aria-label="Menu" />
+
+          <Menu className="size-8" aria-label="Menu" />
         </div>
-        <div className="px-3 pb-2.5">
+
+        {/* Search */}
+        <div className="px-4 pb-8">
           <SearchBar />
         </div>
+
+      
       </div>
     </header>
   );
