@@ -27,10 +27,10 @@ export default function BottomNav({ active = "/" }: BottomNavProps) {
       aria-label="ناوبری"
     >
       <ul className="grid h-[4.5rem] grid-cols-3 items-center">
-        {NAV_ITEMS.map((item) => {
+        {NAV_ITEMS.map((item, index) => {
           const isActive = active === item.href;
           return (
-            <li key={item.href} className="flex justify-center">
+            <li key={`${item.href}-${index}`} className="flex justify-center">
               <Link
                 href={item.href}
                 className={cn(

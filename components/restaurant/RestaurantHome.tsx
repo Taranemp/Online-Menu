@@ -1,7 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import RestaurantHeader from "./RestaurantHeader";
 import CategoryNav from "./CategoryNav";
 import MenuSection from "./MenuSection";
 import BottomNav from "./BottomNav";
+import SearchBar from "./SearchBar"; // کامپوننت جستجو
 import { DEFAULT_CATEGORIES } from "./categories";
 import { MOCK_MENU_ITEMS } from "./menuData";
 
@@ -14,18 +18,39 @@ const MOCK_RESTAURANT = {
 const CATEGORY_SLUGS = DEFAULT_CATEGORIES.map((category) => category.slug);
 
 export default function RestaurantHome() {
+  const [searchQuery, setSearchQuery] = useState("");
+
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-md flex-col bg-background sm\:max-w-lg">
+    <main className="mx-auto flex min-h-screen w-full max-w-md flex-col bg-background sm:max-w-lg">
       <RestaurantHeader
         restaurantName={MOCK_RESTAURANT.name}
         location={MOCK_RESTAURANT.location}
       />
+      
+      {/* اضافه کردن نوار جستجو با قابلیت فیلتر زنده */}
+      <div className="px-4 py-2">
+        <SearchBar
+          value={searchQuery}
+          onChange={(val) => setSearchQuery(val)}
+        />
+      </div>
+
       <CategoryNav categorySlugs={CATEGORY_SLUGS} />
+      
       <div className="pb-24">
         {DEFAULT_CATEGORIES.map((category) => {
-          const items = MOCK_MENU_ITEMS.filter(
-            (item) => item.categorySlug === category.slug,
-          );
+          // پیدا کردن و فیلتر کردن آیتم‌های هر دسته بر اساس متن جستجو شده
+          const items = MOCK_MENU_ITEMS.filter((item) => {
+            const matchesCategory = item.categorySlug === category.slug;
+            const matchesSearch =
+              item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              item.description.toLowerCase().includes(searchQuery.toLowerCase());
+            
+            return matchesCategory && matchesSearch;
+          });
+
+          // اگر جستجو انجام شده و در این دسته چیزی پیدا نشد، این بخش نمایش داده نشود
+          if (searchQuery && items.length === 0) return null;
 
           return (
             <MenuSection
@@ -37,6 +62,7 @@ export default function RestaurantHome() {
           );
         })}
       </div>
+      
       <BottomNav active="/" />
     </main>
   );

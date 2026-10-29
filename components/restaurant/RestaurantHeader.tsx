@@ -1,5 +1,5 @@
 import { MapPin, Menu } from "lucide-react";
-import SearchBar from "./SearchBar";
+
 
 type RestaurantHeaderProps = {
   restaurantName?: string;
@@ -22,29 +22,19 @@ export default function RestaurantHeader({
       />
 
       {/* Dark overlay */}
-      <div
-        className="absolute inset-0 -z-10 bg-black/55"
-        aria-hidden="true"
-      />
+      <div className="absolute inset-0 -z-10 bg-black/55" aria-hidden="true" />
 
       <div className="mx-auto w-full max-w-md">
-        {/* Top row */}
-        <div className="flex items-center justify-between px-4 pt-6 pb-8">
-          <div className="flex items-center gap-2 text-sm">
-            <MapPin className="size-7" />
+        {/* استفاده از items-center برای قرارگیری منظم عمودی و تنظیم پدینگ دلخواه */}
+        <div className="flex items-start justify-between px-4 pt-8 pb-16">
+          <div className="flex items-start gap-2 text-sm md:text-base">
+            <MapPin className="size-6 text-primary" />
             <span>{location}</span>
           </div>
 
-          <div className="text-base font-bold">
-            {restaurantName}
-          </div>
+          <div className="text-lg font-bold">{restaurantName}</div>
 
-          <Menu className="size-8" aria-label="Menu" />
-        </div>
-
-        {/* Search */}
-        <div className="px-4 pb-8">
-          <SearchBar />
+          <Menu className="size-7 cursor-pointer" aria-label="Menu" />
         </div>
       </div>
     </header>
