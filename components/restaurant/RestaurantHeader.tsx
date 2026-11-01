@@ -7,8 +7,8 @@ type RestaurantHeaderProps = {
 };
 
 export default function RestaurantHeader({
-  restaurantName = "کارولانز",
-  location = "لاهیجان، میدان شیخ زاهد، ابتدای کمربندی",
+  restaurantName = "restaurant name",
+  location = "restaurant location",
   statusText = "آماده ثبت سفارش هستیم",
 }: RestaurantHeaderProps) {
   return (
