@@ -18,12 +18,10 @@ type BottomNavProps = {
   active?: string;
 };
 
-// Fixed mobile bottom navigation. Dark background, active state highlighted,
-// always above content via safe-area bottom padding.
 export default function BottomNav({ active = "/" }: BottomNavProps) {
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 border-t border-border bg-[#111827] text-foreground"
+      className="fixed inset-x-0 bottom-0 border-t border-slate-800 bg-black text-white z-50"
       aria-label="ناوبری"
     >
       <ul className="grid h-[4.5rem] grid-cols-3 items-center">
@@ -34,17 +32,17 @@ export default function BottomNav({ active = "/" }: BottomNavProps) {
               <Link
                 href={item.href}
                 className={cn(
-                  "flex flex-col items-center justify-center gap-0.5 px-1 text-xs",
+                  "flex flex-col items-center justify-center gap-0.5 px-1 text-xs transition-colors",
                   isActive
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-foreground"
+                    ? "text-yellow-400 font-semibold"
+                    : "text-slate-400 hover:text-white"
                 )}
                 aria-current={isActive ? "page" : undefined}
               >
                 <item.icon
                   className={cn(
                     "size-5",
-                    isActive ? "text-primary" : "text-muted-foreground"
+                    isActive ? "text-yellow-400" : "text-slate-400"
                   )}
                   aria-hidden="true"
                 />
