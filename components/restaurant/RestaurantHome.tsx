@@ -55,7 +55,7 @@ export default function RestaurantHome() {
           </div>
 
           {/* بخش آیتم‌های منو */}
-          <div className="pb-24">
+          <div id="menu" className="pb-24">
             {DEFAULT_CATEGORIES.map((category) => {
               const items = MOCK_MENU_ITEMS.filter((item) => {
                 const matchesCategory = item.categorySlug === category.slug;

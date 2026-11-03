@@ -3,9 +3,25 @@
 import { useState } from "react";
 import { User, Grid, Phone, LogOut, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function Sidebar() {
   const [isExpanded, setIsExpanded] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleMenuClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (pathname === "/") {
+      const menuSection = document.getElementById("menu");
+      if (menuSection) {
+        menuSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    } else {
+      router.push("/#menu");
+    }
+    setIsExpanded(false);
+  };
 
   return (
     <aside
@@ -58,9 +74,9 @@ export default function Sidebar() {
         </Link>
 
         {/* منو محصولات */}
-        <Link 
-          href="/" 
-          className="relative flex items-center gap-3 group w-full p-2 rounded-2xl hover:bg-white/5 transition"
+        <button 
+          onClick={handleMenuClick}
+          className="relative flex items-center gap-3 group w-full p-2 rounded-2xl hover:bg-white/5 transition text-left"
         >
           <div className="w-14 h-14 rounded-2xl bg-amber-400 text-slate-900 shadow-md flex items-center justify-center shrink-0">
             <Grid size={24} className="text-slate-900" />
@@ -68,7 +84,7 @@ export default function Sidebar() {
           {isExpanded && (
             <span className="text-xs font-medium text-slate-200 truncate">مشاهده منو</span>
           )}
-        </Link>
+        </button>
 
         {/* تماس با ما */}
         <a 
