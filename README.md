@@ -106,7 +106,7 @@ npm run start
 
 ## Authentication & Roles (Demo)
 
-- **Customer / Guest:** Select “Customer/Guest” on `/login` to set the customer role and redirect to `/` (no password).
+- **Customer / Guest:** Select “Customer/Guest” on `/login` to set the customer role and redirect to `/` (no password ).
 - **Administrator:** Select “Administrator” on `/login`, enter the demo password `admin123`, then redirect to `/admin`. Admin auth is persisted in `localStorage`.
 - **Route protection:** Direct access to `/admin` without admin auth redirects to `/login` (client-side).
 - **Mobile navigation:** BottomNav includes an **Account/Login** entry; when an admin session is active, it also shows an **Admin** entry.
