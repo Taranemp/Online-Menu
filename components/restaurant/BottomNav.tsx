@@ -29,9 +29,11 @@ export default function BottomNav({ active = "/" }: BottomNavProps) {
   const handleMenuClick = (e: React.MouseEvent) => {
     e.preventDefault();
     if (pathname === "/") {
-      const menuSection = document.getElementById("menu");
-      if (menuSection) {
-        menuSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (typeof document !== "undefined") {
+        const menuSection = document.getElementById("menu");
+        if (menuSection) {
+          menuSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
       }
     } else {
       router.push("/#menu");

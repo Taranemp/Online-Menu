@@ -22,6 +22,7 @@ export default function RestaurantHome() {
   const [menuData, setMenuData] = useState<MenuData | null>(null);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
     setMenuData(loadMenuData());
     const onStorage = (e: StorageEvent) => {
       if (e.key === "restaurant_menu_data_v1") setMenuData(loadMenuData());

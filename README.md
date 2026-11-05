@@ -128,16 +128,22 @@ npm run start
 
 <!-- Add screenshots here, e.g. ![Menu](docs/menu.png) -->
 
-## Deployment
+## Deployment (Vercel)
 
-The easiest way to deploy is with [Vercel](https://vercel.com/new):
+1. Push the repository to GitHub.
+2. Import the project in Vercel and set the **Root Directory** to `w3_next_app` (this repo contains the Next.js app in that subfolder).
+3. Vercel will detect Next.js automatically:
+   - **Build Command:** `npm run build` (or `next build`)
+   - **Output:** Next.js default
+   - **Install Command:** default (npm/yarn/pnpm)
+4. Add environment variables only if you introduce server-side features later.
+5. Deploy.
 
-1. Push the project to GitHub
-2. Import the repository in Vercel
-3. Add any environment variables in the project settings
-4. Deploy
-
-See the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for other hosting options.
+Notes:
+- `package.json` uses standard Next.js scripts (`dev`, `build`, `start`).
+- Runtime app dependencies (React, Next.js, UI libs, Tailwind runtime helpers) are in `dependencies`; build/tooling deps are in `devDependencies`.
+- The app is configured for clean Vercel builds (no local-only `next.config` origins in production config).
+- Browser-only APIs (`localStorage`, `window`, `document`) are accessed in client components/effects with guards to avoid SSR build/runtime issues.
 
 ## Roadmap
 

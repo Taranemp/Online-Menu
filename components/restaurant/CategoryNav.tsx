@@ -36,6 +36,7 @@ export default function CategoryNav({
   }, [activeSlug]);
 
   useEffect(() => {
+    if (typeof window === "undefined" || !("IntersectionObserver" in window)) return;
     const sections = categories
       .map((cat) => document.getElementById(cat.slug))
       .filter(
