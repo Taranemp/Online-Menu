@@ -8,9 +8,10 @@ A fast, mobile-friendly online menu built with [Next.js](https://nextjs.org). Cu
 - **Item details**: name, description, price, and image for each item
 - **Mobile-first design**: responsive layout optimized for phones, tablets, and desktops
 - **Smooth navigation**: “Menu” actions scroll to the menu section on the homepage (from desktop sidebar and mobile bottom nav), including cross-page navigation
-- **Admin panel**: `/admin` for editing categories and menu items (client-side, persisted to `localStorage` with a simple password gate)
-- **Authentication UI**: login/register page at `/account/login` with tabbed form, client-side validation, loading states, and RTL/Persian text support
-- **Profile routing**: mobile bottom nav routes profile to login (or profile area when authenticated via mock localStorage check)
+- **Unified login & role flow**: `/login` lets users choose **Customer/Guest** (no password, redirects to `/`) or **Administrator** (password `admin123`, redirects to `/admin`)
+- **Admin panel**: `/admin` for editing categories and menu items (client-side, persisted to `localStorage`); unauthenticated access redirects to `/login`
+- **Mobile navigation integration**: mobile BottomNav includes an Account/Login entry and shows the Admin panel entry when an admin session is active
+- **Client-side auth state**: role/auth persisted in `localStorage` (demo)
 - **Fast loading**: built on the Next.js App Router with optimized fonts and images
 - **Easy to update**: menu content can be managed via the admin panel or in source data files
 
@@ -77,15 +78,18 @@ npm run start
 ```
 .
 ├── app/
-│   ├── admin/             # Admin panel for menu management
-│   ├── account/login/     # Login/Register page
+│   ├── login/             # Unified role-based login (Customer/Admin)
+│   ├── admin/             # Admin panel for menu management (protected)
+│   ├── account/login/     # Redirect alias to /login
 │   ├── categories/[slug]/ # Category route
 │   ├── layout.tsx         # Root layout (RTL, Persian font)
 │   └── page.tsx           # Homepage
 ├── components/
-│   ├── admin/             # Admin UI (login gate, editors)
+│   ├── auth/              # Unified login UI
+│   ├── admin/             # Admin UI (editors; legacy login retained)
 │   └── restaurant/        # Menu UI (header, sidebar, bottom nav, hero, categories, sections)
 ├── lib/
+│   ├── auth.ts            # Client-side role/auth helpers (localStorage)
 │   ├── menuStore.ts       # Client-side menu persistence (localStorage)
 │   └── utils.ts
 ├── public/                # Static assets (images, icons)
@@ -95,16 +99,25 @@ npm run start
 ## Key Routes
 
 - `/` – Restaurant homepage/menu
-- `/admin` – Admin panel (manage categories/items)
-- `/account/login` – Login and registration
+- `/login` – Unified login (choose Customer/Guest or Administrator)
+- `/admin` – Admin panel (manage categories/items; requires admin auth)
+- `/account/login` – Redirects to `/login`
 - `/categories/[slug]` – Category view
+
+## Authentication & Roles (Demo)
+
+- **Customer / Guest:** Select “Customer/Guest” on `/login` to set the customer role and redirect to `/` (no password).
+- **Administrator:** Select “Administrator” on `/login`, enter the demo password `admin123`, then redirect to `/admin`. Admin auth is persisted in `localStorage`.
+- **Route protection:** Direct access to `/admin` without admin auth redirects to `/login` (client-side).
+- **Mobile navigation:** BottomNav includes an **Account/Login** entry; when an admin session is active, it also shows an **Admin** entry.
+- **Production note:** Replace client-side demo auth with secure server-side authentication/authorization.
 
 ## Admin Panel
 
-- Visit `/admin` and sign in with the default password: `admin123` (development/demo only).
+- Visit `/login`, choose Administrator, and sign in with the demo password: `admin123`.
 - Add, edit, or delete categories and menu items.
 - Changes are saved to browser `localStorage` and reflected on the homepage in the same browser session.
-- For production, replace the demo password gate with real authentication and persist data to a database/API.
+- For production, persist data to a database/API and enforce server-side access control.
 
 ## Customizing the Menu
 
@@ -130,9 +143,11 @@ See the [Next.js deployment documentation](https://nextjs.org/docs/app/building-
 
 - [x] Persian (RTL) language support (base layout + auth UI)
 - [x] Admin panel for editing the menu (local/demo)
+- [x] Unified login with Customer/Admin role selection (demo)
+- [x] Mobile BottomNav access to login/admin flows
 - [ ] Search and filter items
 - [ ] Dark mode
-- [ ] Real authentication (replace mock/local gates)
+- [ ] Real authentication (server-side, roles/permissions)
 - [ ] Server-side persistence (database/API for menu data)
 - [ ] QR code generation for tables
 

@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import AdminLogin from "@/components/admin/AdminLogin";
 import CategoryEditor from "@/components/admin/CategoryEditor";
 import ItemEditor from "@/components/admin/ItemEditor";
 import { loadMenuData, saveMenuData, resetMenuData, type MenuData } from "@/lib/menuStore";
+import { isAdminAuthed, clearAuth } from "@/lib/auth";
 import { LayoutDashboard, LogOut, RotateCcw, ExternalLink } from "lucide-react";
 import type { Category } from "@/components/restaurant/categories";
 import type { MenuItem } from "@/components/restaurant/menuData";
@@ -19,11 +19,16 @@ export default function AdminPage() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setAuthed(localStorage.getItem("admin_auth") === "1");
+      const ok = isAdminAuthed();
+      if (!ok) {
+        router.replace("/login");
+        return;
+      }
+      setAuthed(true);
       setData(loadMenuData());
       setReady(true);
     }
-  }, []);
+  }, [router]);
 
   const handleChange = (categories: Category[], items: MenuItem[]) => {
     const next = { categories, items };
@@ -40,12 +45,11 @@ export default function AdminPage() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("admin_auth");
-    setAuthed(false);
+    clearAuth();
+    router.replace("/login");
   };
 
-  if (!ready) return null;
-  if (!authed) return <AdminLogin onSuccess={() => setAuthed(true)} />;
+  if (!ready || !authed) return null;
   if (!data) return null;
 
   return (
@@ -89,7 +93,8 @@ export default function AdminPage() {
         <CategoryEditor categories={data.categories} items={data.items} onChange={handleChange} />
         <ItemEditor categories={data.categories} items={data.items} onChange={handleChange} />
       </main>
-      <p className="text-center text-xs text-slate-400 pb-6">رمز پیش‌فرض: admin123 (در محیط واقعی احراز هویت امن پیاده‌سازی شود)</p>
+      <p className="text-center text-xs text-slate-400 pb-6">دسترسی ادمین از طریق /login فعال می‌شود (رمز دمو: admin123)</p>
     </div>
   );
 }
+

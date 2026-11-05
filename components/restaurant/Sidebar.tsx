@@ -62,14 +62,14 @@ export default function Sidebar() {
         
         {/* ورود / ثبت نام */}
         <Link 
-          href="/account/login" 
+          href="/login" 
           className="relative flex items-center gap-3 group w-full p-2 rounded-2xl hover:bg-white/5 transition"
         >
           <div className="w-14 h-14 rounded-2xl bg-white text-slate-900 shadow-md flex items-center justify-center shrink-0">
             <User size={24} className="text-slate-800" />
           </div>
           {isExpanded && (
-            <span className="text-xs font-medium text-slate-200 truncate">ثبت‌نام / ورود</span>
+            <span className="text-xs font-medium text-slate-200 truncate">ورود / حساب</span>
           )}
         </Link>
 
@@ -105,26 +105,16 @@ export default function Sidebar() {
 
       {/* بخش پایین (حساب کاربری / خروج) */}
       <div className="px-4 shrink-0 space-y-2">
-        <Link
-          href="/admin"
-          className="relative flex items-center gap-3 group w-full p-2 rounded-2xl hover:bg-white/5 transition"
-        >
-          <div className="w-14 h-14 rounded-2xl bg-slate-700 text-white shadow-md flex items-center justify-center shrink-0">
-            <Shield size={22} />
-          </div>
-          {isExpanded && (
-            <span className="text-xs font-medium text-slate-200 truncate">پنل ادمین</span>
-          )}
-        </Link>
         <button 
           type="button"
-          className="relative flex items-center gap-3 group w-full p-2 rounded-2xl hover:bg-red-500/10 transition cursor-pointer"
+          onClick={() => router.push("/login")}
+          className="relative flex items-center gap-3 group w-full p-2 rounded-2xl hover:bg-white/5 transition cursor-pointer"
         >
           <div className="w-14 h-14 rounded-2xl bg-white text-slate-900 shadow-md flex items-center justify-center shrink-0">
             <LogOut size={24} />
           </div>
           {isExpanded && (
-            <span className="text-xs font-medium text-slate-400 group-hover:text-red-400 truncate">حساب کاربری</span>
+            <span className="text-xs font-medium text-slate-400 group-hover:text-slate-200 truncate">حساب / تغییر نقش</span>
           )}
         </button>
       </div>
