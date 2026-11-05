@@ -29,7 +29,7 @@ export default async function CategoryDetailPage({
       </div>
 
       <div className="pb-24">
-        <MenuSection title={label} items={items} />
+        <MenuSection slug={slug} title={label} items={items} />
       </div>
 
       <BottomNav active="/categories" />

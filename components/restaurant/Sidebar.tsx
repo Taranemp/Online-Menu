@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { User, Grid, Phone, LogOut, ChevronLeft, ChevronRight } from "lucide-react";
+import { User, Grid, Phone, LogOut, ChevronLeft, ChevronRight, Shield } from "lucide-react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 
@@ -104,7 +104,18 @@ export default function Sidebar() {
       <div className="w-10 h-[1px] bg-white/10 mx-auto my-2 shrink-0"></div>
 
       {/* بخش پایین (حساب کاربری / خروج) */}
-      <div className="px-4 shrink-0">
+      <div className="px-4 shrink-0 space-y-2">
+        <Link
+          href="/admin"
+          className="relative flex items-center gap-3 group w-full p-2 rounded-2xl hover:bg-white/5 transition"
+        >
+          <div className="w-14 h-14 rounded-2xl bg-slate-700 text-white shadow-md flex items-center justify-center shrink-0">
+            <Shield size={22} />
+          </div>
+          {isExpanded && (
+            <span className="text-xs font-medium text-slate-200 truncate">پنل ادمین</span>
+          )}
+        </Link>
         <button 
           type="button"
           className="relative flex items-center gap-3 group w-full p-2 rounded-2xl hover:bg-red-500/10 transition cursor-pointer"

@@ -6,16 +6,22 @@ A fast, mobile-friendly online menu built with [Next.js](https://nextjs.org). Cu
 
 - **Browse by category**: items grouped into clear, easy-to-navigate sections
 - **Item details**: name, description, price, and image for each item
-- **Mobile-first design**: responsive layout that works well on phones, tablets, and desktops
+- **Mobile-first design**: responsive layout optimized for phones, tablets, and desktops
+- **Smooth navigation**: “Menu” actions scroll to the menu section on the homepage (from desktop sidebar and mobile bottom nav), including cross-page navigation
+- **Admin panel**: `/admin` for editing categories and menu items (client-side, persisted to `localStorage` with a simple password gate)
+- **Authentication UI**: login/register page at `/account/login` with tabbed form, client-side validation, loading states, and RTL/Persian text support
+- **Profile routing**: mobile bottom nav routes profile to login (or profile area when authenticated via mock localStorage check)
 - **Fast loading**: built on the Next.js App Router with optimized fonts and images
-- **Easy to update**: menu content is kept separate from the UI code
+- **Easy to update**: menu content can be managed via the admin panel or in source data files
 
 ## Tech Stack
 
 - [Next.js](https://nextjs.org) (App Router)
 - [React](https://react.dev/)
 - TypeScript
-- [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) with [Geist](https://vercel.com/font)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [lucide-react](https://lucide.dev/) icons
+- [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) with Geist and Vazirmatn (Persian)
 
 ## Getting Started
 
@@ -70,15 +76,40 @@ npm run start
 
 ```
 .
-├── app/            # Pages, layouts, and routes (App Router)
-├── components/     # Reusable UI components
-├── public/         # Static assets (images, icons)
+├── app/
+│   ├── admin/             # Admin panel for menu management
+│   ├── account/login/     # Login/Register page
+│   ├── categories/[slug]/ # Category route
+│   ├── layout.tsx         # Root layout (RTL, Persian font)
+│   └── page.tsx           # Homepage
+├── components/
+│   ├── admin/             # Admin UI (login gate, editors)
+│   └── restaurant/        # Menu UI (header, sidebar, bottom nav, hero, categories, sections)
+├── lib/
+│   ├── menuStore.ts       # Client-side menu persistence (localStorage)
+│   └── utils.ts
+├── public/                # Static assets (images, icons)
 └── ...
 ```
 
+## Key Routes
+
+- `/` – Restaurant homepage/menu
+- `/admin` – Admin panel (manage categories/items)
+- `/account/login` – Login and registration
+- `/categories/[slug]` – Category view
+
+## Admin Panel
+
+- Visit `/admin` and sign in with the default password: `admin123` (development/demo only).
+- Add, edit, or delete categories and menu items.
+- Changes are saved to browser `localStorage` and reflected on the homepage in the same browser session.
+- For production, replace the demo password gate with real authentication and persist data to a database/API.
+
 ## Customizing the Menu
 
-Update the menu items, categories, prices, and images in the project's menu data file, then redeploy. Place item images in the `public/` folder and reference them by path.
+- **Via Admin UI:** Use `/admin` to manage categories and items (stored in `localStorage`).
+- **Via Source:** Update default data in `components/restaurant/categories.ts` and `components/restaurant/menuData.ts`, then redeploy. Place item images in `public/` and reference them by path.
 
 ## Screenshots
 
@@ -97,10 +128,12 @@ See the [Next.js deployment documentation](https://nextjs.org/docs/app/building-
 
 ## Roadmap
 
+- [x] Persian (RTL) language support (base layout + auth UI)
+- [x] Admin panel for editing the menu (local/demo)
 - [ ] Search and filter items
-- [ ] Persian (RTL) language support
 - [ ] Dark mode
-- [ ] Admin panel for editing the menu
+- [ ] Real authentication (replace mock/local gates)
+- [ ] Server-side persistence (database/API for menu data)
 - [ ] QR code generation for tables
 
 ## Author
