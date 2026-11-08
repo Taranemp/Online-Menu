@@ -80,7 +80,6 @@ npm run start
 ├── app/
 │   ├── login/             # Unified role-based login (Customer/Admin)
 │   ├── admin/             # Admin panel for menu management (protected)
-│   ├── account/login/     # Redirect alias to /login
 │   ├── categories/[slug]/ # Category route
 │   ├── layout.tsx         # Root layout (RTL, Persian font)
 │   └── page.tsx           # Homepage
@@ -142,8 +141,23 @@ npm run start
 Notes:
 - `package.json` uses standard Next.js scripts (`dev`, `build`, `start`).
 - Runtime app dependencies (React, Next.js, UI libs, Tailwind runtime helpers) are in `dependencies`; build/tooling deps are in `devDependencies`.
-- The app is configured for clean Vercel builds (no local-only `next.config` origins in production config).
+- `/account/login` is handled via `next.config.ts` redirects to `/login` (avoids prebuilt lambda route issues).
 - Browser-only APIs (`localStorage`, `window`, `document`) are accessed in client components/effects with guards to avoid SSR build/runtime issues.
+
+### Prebuilt deploys
+If using `vercel deploy --prebuilt`, run from `w3_next_app/` with a clean state:
+```bash
+rm -rf .next .vercel/output
+vercel build
+vercel deploy --prebuilt
+```
+On Windows PowerShell:
+```powershell
+Remove-Item -Recurse -Force .next, .vercel\output -ErrorAction SilentlyContinue
+vercel build
+vercel deploy --prebuilt
+```
+If it still fails, prefer a normal Git/Vercel build deploy instead of prebuilt.
 
 ## Roadmap
 
