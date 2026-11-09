@@ -8,7 +8,7 @@ import MenuSection from "./MenuSection";
 import BottomNav from "./BottomNav";
 import SearchBar from "./SearchBar";
 import Sidebar from "./Sidebar";
-import { loadMenuData, type MenuData } from "@/lib/menuStore";
+import { loadMenuData, type MenuData } from "@/lib/storage";
 import type { Category } from "./categories";
 import type { MenuItem } from "./menuData";
 
@@ -19,8 +19,7 @@ const MOCK_RESTAURANT = {
 
 export default function RestaurantHome() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [menuData, setMenuData] = useState<MenuData | null>(null);
-
+  const [menuData, setMenuData] = useState<MenuData>(() => loadMenuData());
   useEffect(() => {
     if (typeof window === "undefined") return;
     setMenuData(loadMenuData());
@@ -44,7 +43,7 @@ export default function RestaurantHome() {
           restaurantName={MOCK_RESTAURANT.name}
           location={MOCK_RESTAURANT.location}
         />
-        
+
         <div className="mx-auto w-full max-w-7xl px-4 md:px-8 py-6 space-y-6">
           <HeroSlider />
 
@@ -87,7 +86,7 @@ export default function RestaurantHome() {
           </div>
         </div>
       </main>
-      
+
       <div className="md:hidden">
         <BottomNav active="/" />
       </div>

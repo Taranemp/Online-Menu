@@ -3,12 +3,13 @@
 import { useState } from "react";
 import type { Category } from "@/components/restaurant/categories";
 import type { MenuItem } from "@/components/restaurant/menuData";
+import type { MenuData } from "@/lib/storage";
 import { Plus, Pencil, Trash2, X, Save } from "lucide-react";
 
 type Props = {
   categories: Category[];
   items: MenuItem[];
-  onChange: (categories: Category[], items: MenuItem[]) => void;
+  onChange: (next: MenuData) => void;
 };
 
 const emptyItem = (): Omit<MenuItem, "id"> => ({
@@ -19,6 +20,10 @@ const emptyItem = (): Omit<MenuItem, "id"> => ({
   image: "",
 });
 
+// کلاس مشترک برای همه فیلدهای متنی
+const inputClass =
+  "w-full px-3 py-2 border border-slate-300 rounded-lg text-sm text-slate-900 placeholder-slate-400 bg-white focus:outline-none focus:ring-2 focus:ring-slate-200 focus:border-slate-400";
+
 export default function ItemEditor({ categories, items, onChange }: Props) {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<Omit<MenuItem, "id">>(emptyItem());
@@ -26,7 +31,13 @@ export default function ItemEditor({ categories, items, onChange }: Props) {
 
   const startEdit = (item: MenuItem) => {
     setEditingId(item.id);
-    setForm({ name: item.name, description: item.description, price: item.price, categorySlug: item.categorySlug, image: item.image || "" });
+    setForm({
+      name: item.name,
+      description: item.description,
+      price: item.price,
+      categorySlug: item.categorySlug,
+      image: item.image || "",
+    });
     setIsAdding(false);
   };
 
@@ -46,16 +57,20 @@ export default function ItemEditor({ categories, items, onChange }: Props) {
     if (!form.name.trim() || !form.categorySlug) return;
     if (isAdding) {
       const newItem: MenuItem = { ...form, id: `item-${Date.now()}` };
-      onChange(categories, [...items, newItem]);
+      onChange({ categories, items: [...items, newItem] });
     } else if (editingId) {
-      onChange(categories, items.map((i) => (i.id === editingId ? { ...form, id: editingId } : i)));
+      onChange({
+        categories,
+        items: items.map((i) => (i.id === editingId ? { ...form, id: editingId } : i)),
+      });
     }
     cancel();
   };
 
   const remove = (id: string) => {
-    if (!confirm("این آیتم حذف شود؟")) return;
-    onChange(categories, items.filter((i) => i.id !== id));
+    if (typeof window === "undefined") return;
+    if (!window.confirm("این آیتم حذف شود؟")) return;
+    onChange({ categories, items: items.filter((i) => i.id !== id) });
   };
 
   return (
@@ -63,8 +78,9 @@ export default function ItemEditor({ categories, items, onChange }: Props) {
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-bold text-slate-900">آیتم‌های منو</h2>
         <button
+          type="button"
           onClick={startAdd}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-900 text-white text-sm rounded-lg hover:bg-slate-800"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-900 text-white text-sm rounded-lg hover:bg-slate-800 cursor-pointer touch-manipulation"
         >
           <Plus className="w-4 h-4" /> افزودن
         </button>
@@ -76,25 +92,25 @@ export default function ItemEditor({ categories, items, onChange }: Props) {
             placeholder="نام آیتم"
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
-            className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm"
+            className={inputClass}
           />
           <textarea
             placeholder="توضیحات"
             value={form.description}
             onChange={(e) => setForm({ ...form, description: e.target.value })}
-            className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm"
+            className={inputClass}
             rows={2}
           />
           <input
             placeholder="قیمت (مثال: ۱۵۰,۰۰۰ تومان)"
             value={form.price}
             onChange={(e) => setForm({ ...form, price: e.target.value })}
-            className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm"
+            className={inputClass}
           />
           <select
             value={form.categorySlug}
             onChange={(e) => setForm({ ...form, categorySlug: e.target.value })}
-            className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm bg-white"
+            className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm bg-white text-slate-900"
           >
             <option value="">انتخاب دسته‌بندی</option>
             {categories.map((c) => (
@@ -105,14 +121,14 @@ export default function ItemEditor({ categories, items, onChange }: Props) {
             placeholder="مسیر تصویر (اختیاری، مثال: /file.svg)"
             value={form.image || ""}
             onChange={(e) => setForm({ ...form, image: e.target.value })}
-            className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm"
+            className={inputClass}
             dir="ltr"
           />
           <div className="flex gap-2">
-            <button onClick={save} className="flex items-center gap-1 px-3 py-1.5 bg-slate-900 text-white text-sm rounded-lg">
+            <button type="button" onClick={save} className="flex items-center gap-1 px-3 py-1.5 bg-slate-900 text-white text-sm rounded-lg cursor-pointer touch-manipulation">
               <Save className="w-4 h-4" /> ذخیره
             </button>
-            <button onClick={cancel} className="flex items-center gap-1 px-3 py-1.5 bg-slate-200 text-slate-700 text-sm rounded-lg">
+            <button type="button" onClick={cancel} className="flex items-center gap-1 px-3 py-1.5 bg-slate-200 text-slate-700 text-sm rounded-lg cursor-pointer touch-manipulation">
               <X className="w-4 h-4" /> انصراف
             </button>
           </div>
@@ -129,10 +145,10 @@ export default function ItemEditor({ categories, items, onChange }: Props) {
                 <p className="text-xs text-slate-500">{cat?.label || item.categorySlug} · {item.price}</p>
               </div>
               <div className="flex gap-1 shrink-0">
-                <button onClick={() => startEdit(item)} className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded">
+                <button type="button" onClick={() => startEdit(item)} className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded cursor-pointer touch-manipulation">
                   <Pencil className="w-4 h-4" />
                 </button>
-                <button onClick={() => remove(item.id)} className="p-2 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded">
+                <button type="button" onClick={() => remove(item.id)} className="p-2 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded cursor-pointer touch-manipulation">
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>

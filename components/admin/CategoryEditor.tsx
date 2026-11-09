@@ -3,13 +3,18 @@
 import { useState } from "react";
 import type { Category } from "@/components/restaurant/categories";
 import type { MenuItem } from "@/components/restaurant/menuData";
+import type { MenuData } from "@/lib/storage";
 import { Plus, Pencil, Trash2, X, Save } from "lucide-react";
 
 type Props = {
   categories: Category[];
   items: MenuItem[];
-  onChange: (categories: Category[], items: MenuItem[]) => void;
+  onChange: (next: MenuData) => void;
 };
+
+// کلاس مشترک برای فیلدهای متنی
+const inputClass =
+  "w-full px-3 py-2 border border-slate-300 rounded-lg text-sm text-slate-900 placeholder-slate-400 bg-white focus:outline-none focus:ring-2 focus:ring-slate-200 focus:border-slate-400";
 
 export default function CategoryEditor({ categories, items, onChange }: Props) {
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -38,28 +43,31 @@ export default function CategoryEditor({ categories, items, onChange }: Props) {
     if (!form.slug.trim() || !form.label.trim()) return;
     if (isAdding) {
       if (categories.some((c) => c.slug === form.slug)) return;
-      // Keep icon as a simple placeholder; icons are component refs in code, store slug/label only in practice
-      const newCat = { slug: form.slug, label: form.label, icon: categories[0]?.icon || (() => null) } as Category;
-      onChange([...categories, newCat], items);
+      const newCat = {
+        slug: form.slug,
+        label: form.label,
+        icon: categories[0]?.icon || (() => null),
+      };
+      onChange({ categories: [...categories, newCat], items });
     } else if (editingId) {
       const updated = categories.map((c) =>
         c.slug === editingId ? { ...c, slug: form.slug, label: form.label } : c
       );
-      // Update items that referenced old slug
       const updatedItems = items.map((i) =>
         i.categorySlug === editingId ? { ...i, categorySlug: form.slug } : i
       );
-      onChange(updated, updatedItems);
+      onChange({ categories: updated, items: updatedItems });
     }
     cancel();
   };
 
   const remove = (slug: string) => {
-    if (!confirm("این دسته‌بندی و آیتم‌های مرتبط حذف شوند؟")) return;
-    onChange(
-      categories.filter((c) => c.slug !== slug),
-      items.filter((i) => i.categorySlug !== slug)
-    );
+    if (typeof window === "undefined") return;
+    if (!window.confirm("این دسته‌بندی و آیتم‌های مرتبط حذف شوند؟")) return;
+    onChange({
+      categories: categories.filter((c) => c.slug !== slug),
+      items: items.filter((i) => i.categorySlug !== slug),
+    });
   };
 
   return (
@@ -67,8 +75,9 @@ export default function CategoryEditor({ categories, items, onChange }: Props) {
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-bold text-slate-900">دسته‌بندی‌ها</h2>
         <button
+          type="button"
           onClick={startAdd}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-900 text-white text-sm rounded-lg hover:bg-slate-800"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-900 text-white text-sm rounded-lg hover:bg-slate-800 cursor-pointer touch-manipulation"
         >
           <Plus className="w-4 h-4" /> افزودن
         </button>
@@ -80,20 +89,20 @@ export default function CategoryEditor({ categories, items, onChange }: Props) {
             placeholder="slug (مثال: drinks)"
             value={form.slug}
             onChange={(e) => setForm({ ...form, slug: e.target.value })}
-            className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm"
+            className={inputClass}
             dir="ltr"
           />
           <input
             placeholder="عنوان (مثال: نوشیدنی)"
             value={form.label}
             onChange={(e) => setForm({ ...form, label: e.target.value })}
-            className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm"
+            className={inputClass}
           />
           <div className="flex gap-2">
-            <button onClick={save} className="flex items-center gap-1 px-3 py-1.5 bg-slate-900 text-white text-sm rounded-lg">
+            <button type="button" onClick={save} className="flex items-center gap-1 px-3 py-1.5 bg-slate-900 text-white text-sm rounded-lg cursor-pointer touch-manipulation">
               <Save className="w-4 h-4" /> ذخیره
             </button>
-            <button onClick={cancel} className="flex items-center gap-1 px-3 py-1.5 bg-slate-200 text-slate-700 text-sm rounded-lg">
+            <button type="button" onClick={cancel} className="flex items-center gap-1 px-3 py-1.5 bg-slate-200 text-slate-700 text-sm rounded-lg cursor-pointer touch-manipulation">
               <X className="w-4 h-4" /> انصراف
             </button>
           </div>
@@ -108,10 +117,10 @@ export default function CategoryEditor({ categories, items, onChange }: Props) {
               <p className="text-xs text-slate-500" dir="ltr">{cat.slug}</p>
             </div>
             <div className="flex gap-1">
-              <button onClick={() => startEdit(cat)} className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded">
+              <button type="button" onClick={() => startEdit(cat)} className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded cursor-pointer touch-manipulation">
                 <Pencil className="w-4 h-4" />
               </button>
-              <button onClick={() => remove(cat.slug)} className="p-2 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded">
+              <button type="button" onClick={() => remove(cat.slug)} className="p-2 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded cursor-pointer touch-manipulation">
                 <Trash2 className="w-4 h-4" />
               </button>
             </div>
