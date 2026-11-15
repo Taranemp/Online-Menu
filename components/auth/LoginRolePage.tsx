@@ -21,11 +21,11 @@ export default function LoginRolePage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 relative z-0">
-      <div className="w-full max-w-md bg-white border border-slate-200 rounded-2xl shadow-lg p-6 sm:p-8 relative z-10">
+    <div className="min-h-screen bg-slate-50 dark:bg-neutral-950 flex items-center justify-center p-4 relative z-0">
+      <div className="w-full max-w-md bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 rounded-2xl shadow-lg p-6 sm:p-8 relative z-10">
         <div className="text-center mb-6">
-          <h1 className="text-2xl font-bold text-slate-900 mb-1">ورود به سیستم</h1>
-          <p className="text-sm text-slate-500">نقش خود را انتخاب کنید</p>
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">ورود به سیستم</h1>
+          <p className="text-sm text-slate-500 dark:text-neutral-400">نقش خود را انتخاب کنید</p>
         </div>
 
         {role === "select" && (

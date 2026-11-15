@@ -25,15 +25,8 @@ export default function CategoryNav({
     [categorySlugs]
   );
 
-  const [currentSlug, setCurrentSlug] = useState(
-    activeSlug ?? categories[0]?.slug ?? ""
-  );
-
-  useEffect(() => {
-    if (activeSlug) {
-      setCurrentSlug(activeSlug);
-    }
-  }, [activeSlug]);
+  const [internalSlug, setInternalSlug] = useState(categories[0]?.slug ?? "");
+  const currentSlug = activeSlug ?? internalSlug;
 
   useEffect(() => {
     if (typeof window === "undefined" || !("IntersectionObserver" in window)) return;
@@ -55,7 +48,7 @@ export default function CategoryNav({
           );
 
         if (visibleSections.length > 0) {
-          setCurrentSlug(visibleSections[0].target.id);
+          setInternalSlug(visibleSections[0].target.id);
         }
       },
       {
@@ -74,7 +67,7 @@ export default function CategoryNav({
 
     if (!section) return;
 
-    setCurrentSlug(slug);
+    setInternalSlug(slug);
 
     section.scrollIntoView({
       behavior: "smooth",
@@ -101,8 +94,8 @@ export default function CategoryNav({
                 className={cn(
                   "flex items-center justify-center gap-2 whitespace-nowrap rounded-full px-4 py-2.5 text-xs md:text-sm font-medium transition-all cursor-pointer shadow-sm",
                   isActive
-                    ? "bg-slate-900 text-white shadow-md"
-                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                    ? "bg-slate-900 text-white dark:bg-amber-400 dark:text-neutral-950 shadow-md"
+                    : "bg-slate-100 text-slate-600 dark:bg-neutral-800 dark:text-neutral-300 hover:bg-slate-200 dark:hover:bg-neutral-700"
                 )}
                 aria-pressed={isActive}
               >
@@ -110,8 +103,8 @@ export default function CategoryNav({
                   className={cn(
                     "flex size-6 items-center justify-center rounded-full",
                     isActive
-                      ? "bg-white/20 text-white"
-                      : "bg-white text-slate-700 shadow-xs"
+                      ? "bg-white/20 text-white dark:bg-neutral-950/20 dark:text-neutral-950"
+                      : "bg-white text-slate-700 shadow-xs dark:bg-neutral-700 dark:text-neutral-300"
                   )}
                   aria-hidden="true"
                 >

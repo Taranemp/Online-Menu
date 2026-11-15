@@ -14,7 +14,7 @@ type Props = {
 
 // کلاس مشترک برای فیلدهای متنی
 const inputClass =
-  "w-full px-3 py-2 border border-slate-300 rounded-lg text-sm text-slate-900 placeholder-slate-400 bg-white focus:outline-none focus:ring-2 focus:ring-slate-200 focus:border-slate-400";
+  "w-full px-3 py-2 border border-slate-300 dark:border-white/10 rounded-lg text-sm text-slate-900 dark:text-neutral-100 placeholder-slate-400 dark:placeholder-neutral-500 bg-white dark:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-slate-200 dark:focus:ring-neutral-700 focus:border-slate-400 dark:focus:border-neutral-600";
 
 export default function CategoryEditor({ categories, items, onChange }: Props) {
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -71,20 +71,20 @@ export default function CategoryEditor({ categories, items, onChange }: Props) {
   };
 
   return (
-    <div className="bg-white border border-slate-200 rounded-xl p-4">
+    <div className="bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 rounded-xl p-4">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-bold text-slate-900">دسته‌بندی‌ها</h2>
+        <h2 className="text-lg font-bold text-slate-900 dark:text-white">دسته‌بندی‌ها</h2>
         <button
           type="button"
           onClick={startAdd}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-900 text-white text-sm rounded-lg hover:bg-slate-800 cursor-pointer touch-manipulation"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-900 dark:bg-amber-400 text-white dark:text-neutral-950 text-sm rounded-lg hover:bg-slate-800 dark:hover:bg-amber-300 cursor-pointer touch-manipulation"
         >
           <Plus className="w-4 h-4" /> افزودن
         </button>
       </div>
 
       {(isAdding || editingId) && (
-        <div className="mb-4 p-3 bg-slate-50 border border-slate-200 rounded-lg space-y-2">
+        <div className="mb-4 p-3 bg-slate-50 dark:bg-neutral-950 border border-slate-200 dark:border-white/10 rounded-lg space-y-2">
           <input
             placeholder="slug (مثال: drinks)"
             value={form.slug}
@@ -99,10 +99,10 @@ export default function CategoryEditor({ categories, items, onChange }: Props) {
             className={inputClass}
           />
           <div className="flex gap-2">
-            <button type="button" onClick={save} className="flex items-center gap-1 px-3 py-1.5 bg-slate-900 text-white text-sm rounded-lg cursor-pointer touch-manipulation">
+            <button type="button" onClick={save} className="flex items-center gap-1 px-3 py-1.5 bg-slate-900 dark:bg-amber-400 text-white dark:text-neutral-950 text-sm rounded-lg cursor-pointer touch-manipulation">
               <Save className="w-4 h-4" /> ذخیره
             </button>
-            <button type="button" onClick={cancel} className="flex items-center gap-1 px-3 py-1.5 bg-slate-200 text-slate-700 text-sm rounded-lg cursor-pointer touch-manipulation">
+            <button type="button" onClick={cancel} className="flex items-center gap-1 px-3 py-1.5 bg-slate-200 dark:bg-neutral-800 text-slate-700 dark:text-neutral-200 text-sm rounded-lg cursor-pointer touch-manipulation">
               <X className="w-4 h-4" /> انصراف
             </button>
           </div>
@@ -111,16 +111,16 @@ export default function CategoryEditor({ categories, items, onChange }: Props) {
 
       <ul className="space-y-2">
         {categories.map((cat) => (
-          <li key={cat.slug} className="flex items-center justify-between p-3 border border-slate-200 rounded-lg">
+          <li key={cat.slug} className="flex items-center justify-between p-3 border border-slate-200 dark:border-white/10 rounded-lg">
             <div>
-              <p className="font-medium text-slate-900">{cat.label}</p>
-              <p className="text-xs text-slate-500" dir="ltr">{cat.slug}</p>
+              <p className="font-medium text-slate-900 dark:text-white">{cat.label}</p>
+              <p className="text-xs text-slate-500 dark:text-neutral-400" dir="ltr">{cat.slug}</p>
             </div>
             <div className="flex gap-1">
-              <button type="button" onClick={() => startEdit(cat)} className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded cursor-pointer touch-manipulation">
+              <button type="button" onClick={() => startEdit(cat)} className="p-2 text-slate-500 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-neutral-800 rounded cursor-pointer touch-manipulation">
                 <Pencil className="w-4 h-4" />
               </button>
-              <button type="button" onClick={() => remove(cat.slug)} className="p-2 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded cursor-pointer touch-manipulation">
+              <button type="button" onClick={() => remove(cat.slug)} className="p-2 text-slate-500 dark:text-neutral-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded cursor-pointer touch-manipulation">
                 <Trash2 className="w-4 h-4" />
               </button>
             </div>

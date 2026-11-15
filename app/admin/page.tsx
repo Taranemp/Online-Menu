@@ -52,8 +52,8 @@ export default function AdminPage() {
 
   if (authed === null) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-        <div className="text-slate-500 text-sm animate-pulse">در حال بررسی دسترسی...</div>
+      <div className="min-h-screen bg-slate-50 dark:bg-neutral-950 flex items-center justify-center p-4">
+        <div className="text-slate-500 dark:text-neutral-400 text-sm animate-pulse">در حال بررسی دسترسی...</div>
       </div>
     );
   }
@@ -61,37 +61,37 @@ export default function AdminPage() {
   if (!authed) return null;
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
+    <div className="min-h-screen bg-slate-50 dark:bg-neutral-950">
+      <header className="bg-white dark:bg-neutral-900 border-b border-slate-200 dark:border-white/10 sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <div className="p-2 bg-slate-900 text-white rounded-lg">
               <LayoutDashboard className="w-5 h-5" />
             </div>
             <div>
-              <h1 className="font-bold text-slate-900">پنل مدیریت منو</h1>
-              <p className="text-xs text-slate-500">ویرایش دسته‌بندی‌ها و آیتم‌ها</p>
+              <h1 className="font-bold text-slate-900 dark:text-white">پنل مدیریت منو</h1>
+              <p className="text-xs text-slate-500 dark:text-neutral-400">ویرایش دسته‌بندی‌ها و آیتم‌ها</p>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             {saved && <span className="text-xs text-green-600">ذخیره شد</span>}
             <a
               href="/"
-              className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900 border border-slate-200 rounded-lg cursor-pointer touch-manipulation"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-slate-600 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-white/10 rounded-lg cursor-pointer touch-manipulation"
             >
               <ExternalLink className="w-4 h-4" /> مشاهده سایت
             </a>
             <button
               type="button"
               onClick={handleReset}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900 border border-slate-200 rounded-lg cursor-pointer touch-manipulation"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-slate-600 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-white/10 rounded-lg cursor-pointer touch-manipulation"
             >
               <RotateCcw className="w-4 h-4" /> بازنشانی
             </button>
             <button
               type="button"
               onClick={handleLogout}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 border border-slate-200 rounded-lg cursor-pointer touch-manipulation"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 border border-slate-200 dark:border-white/10 rounded-lg cursor-pointer touch-manipulation"
             >
               <LogOut className="w-4 h-4" /> خروج
             </button>
@@ -103,7 +103,7 @@ export default function AdminPage() {
         <CategoryEditor categories={categories} items={items} onChange={handleChange} />
         <ItemEditor categories={categories} items={items} onChange={handleChange} />
       </main>
-      <p className="text-center text-xs text-slate-400 pb-6">دسترسی ادمین از طریق /login فعال می‌شود (رمز دمو: admin123)</p>
+      <p className="text-center text-xs text-slate-400 dark:text-neutral-500 pb-6">دسترسی ادمین از طریق /login فعال می‌شود (رمز دمو: admin123)</p>
     </div>
   );
 }

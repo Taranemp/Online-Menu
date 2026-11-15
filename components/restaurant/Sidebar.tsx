@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { User, Grid, Phone, LogOut, ChevronLeft, ChevronRight, Shield } from "lucide-react";
+import { User, Grid, Phone, LogOut, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 
@@ -28,7 +28,7 @@ export default function Sidebar() {
   return (
     <aside
       style={{ width: isExpanded ? "280px" : "96px" }}
-      className="hidden md:flex fixed top-0 bottom-0 left-0 z-50 flex-col justify-between bg-[#1f1f1f] text-white py-6 shadow-2xl transition-all duration-300 ease-in-out"
+      className="hidden lg:flex fixed top-0 bottom-0 left-0 z-50 flex-col justify-between bg-[#1f1f1f] text-white py-6 shadow-2xl transition-all duration-300 ease-in-out"
     >
       {/* دکمه‌ی تگل در وسط ارتفاع سایدبار */}
       <button
