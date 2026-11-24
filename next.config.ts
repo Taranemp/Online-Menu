@@ -3,6 +3,15 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // IP دستگاه یا شبکه‌ای که از آن به سرور وصل می‌شوید را اینجا اضافه کنید
   allowedDevOrigins: ["192.168.1.11"],
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+    ],
+    dangerouslyAllowLocalIP: true,
+  },
 
   async redirects() {
     return [

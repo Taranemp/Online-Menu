@@ -125,6 +125,10 @@
   }
 }
 
+@keyframes hero-nudge {
+  0%, 100% { transform: translateY(0); opacity: 0.85; }
+  50% { transform: translateY(-4px); opacity: 1; }
+}
 @layer base {
   * {
     @apply border-border outline-ring/50;

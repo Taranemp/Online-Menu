@@ -84,7 +84,6 @@ export default function CategoryNav({
       <ul className="flex items-center gap-2 px-2 py-2 flex-nowrap min-w-max">
         {categories.map((cat) => {
           const isActive = currentSlug === cat.slug;
-          const Icon = cat.icon;
 
           return (
             <li key={cat.slug} className="shrink-0">
@@ -101,14 +100,14 @@ export default function CategoryNav({
               >
                 <span
                   className={cn(
-                    "flex size-6 items-center justify-center rounded-full",
+                    "flex size-6 items-center justify-center rounded-full text-sm leading-none",
                     isActive
-                      ? "bg-white/20 text-white dark:bg-neutral-950/20 dark:text-neutral-950"
-                      : "bg-white text-slate-700 shadow-xs dark:bg-neutral-700 dark:text-neutral-300"
+                      ? "bg-white/20 dark:bg-neutral-950/20"
+                      : "bg-white shadow-xs dark:bg-neutral-700"
                   )}
                   aria-hidden="true"
                 >
-                  <Icon className="size-3.5" />
+                  {cat.emoji}
                 </span>
 
                 {cat.label}

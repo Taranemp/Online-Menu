@@ -43,10 +43,10 @@ export default function CategoryEditor({ categories, items, onChange }: Props) {
     if (!form.slug.trim() || !form.label.trim()) return;
     if (isAdding) {
       if (categories.some((c) => c.slug === form.slug)) return;
-      const newCat = {
+      const newCat: Category = {
         slug: form.slug,
         label: form.label,
-        icon: categories[0]?.icon || (() => null),
+        emoji: categories[0]?.emoji ?? "🍽️",
       };
       onChange({ categories: [...categories, newCat], items });
     } else if (editingId) {
